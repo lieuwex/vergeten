@@ -12,10 +12,6 @@ namespace Vergeten {
 vector<command_fn_t> commandfuncs;
 unordered_map<string,int> aliasidcs;
 
-void register_command(string name,command_fn_t func){
-	aliasidcs[name]=commandfuncs.size();
-	commandfuncs.push_back(func);
-}
 void register_command(vector<string> names,command_fn_t func){
 	const int idx=commandfuncs.size();
 	commandfuncs.push_back(func);
