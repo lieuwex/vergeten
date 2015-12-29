@@ -25,15 +25,15 @@ void register_command(vector<string> names,command_fn_t func){
 }
 
 
+}
+
+using namespace Vergeten;
+
 #define Xi(name) void name##_init(void);
 #define X(name) Xi(name)
 COMMANDS_XLIST
 #undef Xi
 #undef X
-
-}
-
-using namespace Vergeten;
 
 
 int main(int argc,const char **argv) {
