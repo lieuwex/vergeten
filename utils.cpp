@@ -9,9 +9,27 @@ namespace Vergeten {
 
 vector<string> expand_glob(string path) {
 	glob_t pglob;
-	int code = glob(path.c_str(), 0, nullptr, &pglob);
+	const int code = glob(path.c_str(), 0, nullptr, &pglob);
 	if (code > 0) {
 		throw logic_error("glob returned error.");
+	}
+
+	vector<string> res;
+	res.reserve(pglob.gl_pathc);
+	for (size_t i = 0; i < pglob.gl_pathc; i++) {
+		res.push_back(pglob.gl_pathv[i]);
+	}
+	globfree(&pglob);
+	return res;
+}
+
+vector<string> expand_glob(vector<string> globs) {
+	glob_t pglob;
+	for(size_t i=0;i<globs.size();i++){
+		const int code = glob(globs[i].c_str(), i > 0 ? GLOB_APPEND : 0, nullptr, &pglob);
+		if (code > 0) {
+			throw logic_error("glob returned error.");
+		}
 	}
 
 	vector<string> res;
@@ -20,15 +38,6 @@ vector<string> expand_glob(string path) {
 		res.push_back(pglob.gl_pathv[i]);
 	}
 	globfree(&pglob);
-	return res;
-}
-
-vector<string> expand_glob(vector<string> globs) {
-	vector<string> res;
-	for (int i = 0; i < (int)globs.size(); i++) {
-		const vector<string> paths = expand_glob(globs[i]);
-		res.insert(res.end(), paths.begin(), paths.end());
-	}
 	return res;
 }
 

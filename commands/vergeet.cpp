@@ -11,7 +11,7 @@ void vergeet_init(void) {
 			return 1;
 		}
 
-		auto res = expand_glob(string(argv[1]));
+		auto res = expand_glob(vector<string>(argv+1,argv+argc));
 		for ( string x : res ) {
 			cerr << x << endl;
 		}
