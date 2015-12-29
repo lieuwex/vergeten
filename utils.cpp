@@ -1,6 +1,9 @@
-#include <glob.h>
+#include <iostream>
 #include <stdexcept>
+#include <glob.h>
 #include "utils.h"
+
+using namespace std;
 
 namespace Vergeten {
 
@@ -11,10 +14,12 @@ vector<string> expand_glob(string path) {
 		throw logic_error("glob returned error.");
 	}
 
-	vector<string> res(pglob.gl_pathc);
+	vector<string> res;
+	res.reserve(pglob.gl_pathc);
 	for (int i = 0; i < (int)pglob.gl_pathc; i++) {
 		res.push_back(pglob.gl_pathv[i]);
 	}
+	globfree(&pglob);
 	return res;
 }
 
