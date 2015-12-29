@@ -1,0 +1,30 @@
+File catalogs
+===
+
+.vergeten/staged.db:
+```
+<file paths separated by \0>
+```
+
+.vergeten/things.db:
+A file containing all the paths that vergeten tries to remember.
+Delimiter is a null byte, denoted by '\0' in this file. The content is as follows:
+```
+<file path>\0<hash>\0<TODO>\0\0<file path>...
+```
+
+.vergeten/things/<relative file path>:
+The historical content of a thing is stored in `.vergeten/things/` in its own
+relative path. The contents of that history file is as follows:
+```
+<commit id>\0<file content>\0\0<commit id>\0<file content>
+```
+
+Trivia
+@Lieuwex wanted to have this way cooler file content history notation than
+vergeten currently has:
+
+```
+function () { console.log('hoi') }
+aabc\027\0\x7f\x7f\x7f\x7fkaas\032\0;
+```
