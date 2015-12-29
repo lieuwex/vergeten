@@ -22,7 +22,7 @@ relative path. The contents of that history file is as follows:
 
 Trivia
 @Lieuwex wanted to have this way cooler file content history notation than
-vergeten currently has:
+what vergeten currently has:
 
 ```
 function () { console.log('hoi') }
