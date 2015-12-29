@@ -11,7 +11,7 @@ vector<string> expand_glob(string path) {
 	glob_t pglob;
 	const int code = glob(path.c_str(), 0, nullptr, &pglob);
 	if (code > 0) {
-		throw logic_error("glob returned error.");
+		throw logic_error("glob returned an error.");
 	}
 
 	vector<string> res;

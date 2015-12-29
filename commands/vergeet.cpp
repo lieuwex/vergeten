@@ -11,9 +11,11 @@ void vergeet_init(void) {
 			return 1;
 		}
 
-		auto res = expand_glob(vector<string>(argv+1,argv+argc));
-		for ( string x : res ) {
-			cerr << x << endl;
+		vector<string> v = vector<string>(argv + 1, argv+argc);
+		auto files = expand_glob(v);
+
+		for (string file : files) {
+			stash_file(file);
 		}
 
 		return 0;
