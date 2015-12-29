@@ -9,14 +9,20 @@ using namespace std;
 
 namespace Vergeten {
 
+struct Docitem{
+	string args,desc;
+};
+
 vector<command_fn_t> commandfuncs;
 unordered_map<string,int> aliasidcs;
+unordered_map<string,Docitem> commanddocs;
 
-void register_command(vector<string> names,command_fn_t func){
+void register_command(vector<string> names,command_fn_t func,Docitem docitem){
 	const int idx=commandfuncs.size();
 	commandfuncs.push_back(func);
 	for(const string name : names){
 		aliasidcs[name]=idx;
+		commanddocs.insert(make_pair(name,docitem));
 	}
 }
 
@@ -32,16 +38,25 @@ COMMANDS_XLIST
 #undef X
 
 
+void printusage(int argc,const char **argv){
+	cerr<<"usage"<<endl;
+}
+
 int main(int argc,const char **argv) {
 #define Xi(name) name##_init();
 #define X(name) Xi(name)
 	COMMANDS_XLIST
 #undef Xi
 #undef X
+	if(argc<2){
+		printusage();
+		return 1;
+	}
 	const char *subcommand=argv[1];
 	auto it=aliasidcs.find(subcommand);
 	if(it==aliasidcs.end()){
 		cerr<<"Subcommand "<<subcommand<<" not found."<<endl;
+		printusage(argc,argv);
 		return 1;
 	}
 	return commandfuncs[it->second](argc-1,argv+1);
