@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <vector>
 
@@ -7,6 +9,10 @@ namespace Vergeten {
 
 typedef int (*command_fn_t)(int,const char**);
 
-void register_command(vector<string> names,command_fn_t func);
+struct Docitem{
+	string args,desc;
+};
+
+void register_command(vector<string> names,Docitem docitem,command_fn_t func);
 
 }; //namespace

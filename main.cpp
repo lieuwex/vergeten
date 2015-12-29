@@ -9,15 +9,11 @@ using namespace std;
 
 namespace Vergeten {
 
-struct Docitem{
-	string args,desc;
-};
-
 vector<command_fn_t> commandfuncs;
 unordered_map<string,int> aliasidcs;
 unordered_map<string,Docitem> commanddocs;
 
-void register_command(vector<string> names,command_fn_t func,Docitem docitem){
+void register_command(vector<string> names,Docitem docitem,command_fn_t func){
 	const int idx=commandfuncs.size();
 	commandfuncs.push_back(func);
 	for(const string name : names){
@@ -38,8 +34,12 @@ COMMANDS_XLIST
 #undef X
 
 
-void printusage(int argc,const char **argv){
-	cerr<<"usage"<<endl;
+void print_usage(int,const char**){
+	cerr<<"Vergeten -- a version control program"<<endl<<endl;
+	cerr<<"Subcommands:"<<endl;
+	for(const pair<string,Docitem> p : commanddocs){
+		cerr<<"  "<<p.first<<": "<<p.second.args<<" -- "<<p.second.desc<<endl;
+	}
 }
 
 int main(int argc,const char **argv) {
@@ -49,14 +49,14 @@ int main(int argc,const char **argv) {
 #undef Xi
 #undef X
 	if(argc<2){
-		printusage();
+		print_usage(argc,argv);
 		return 1;
 	}
 	const char *subcommand=argv[1];
 	auto it=aliasidcs.find(subcommand);
 	if(it==aliasidcs.end()){
 		cerr<<"Subcommand "<<subcommand<<" not found."<<endl;
-		printusage(argc,argv);
+		print_usage(argc,argv);
 		return 1;
 	}
 	return commandfuncs[it->second](argc-1,argv+1);
