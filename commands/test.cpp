@@ -1,6 +1,6 @@
 namespace Vergeten {
 
-void vergeet_init(void){
+void test_init(void){
 	;
 }
 
