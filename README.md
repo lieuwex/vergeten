@@ -1,3 +1,3 @@
 vergeten
 ===
-Fuck what what this project again I forgot
+Fuck what was this project again I forgot
